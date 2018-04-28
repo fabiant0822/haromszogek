@@ -1,7 +1,13 @@
 package Haromszogek;
 
+import Haromszogek.DHaromszog.Kivetel;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 import javax.swing.DefaultListModel;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -17,7 +23,31 @@ public class Haromszogek extends javax.swing.JFrame {
         lstHaromszogek.setModel(lm);
     }
     
-    
+    private void megnyit() {
+        if (fcMegnyit.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            try (Scanner be = new Scanner(fcMegnyit.getSelectedFile())) {
+                txaHibak.setText("");
+                txaAdatok.setText("");
+                lm.clear();
+                haromszogek.clear();
+                int i = 1;
+                DHaromszog h;
+                while (be.hasNextLine()) {
+                    try {
+                        h = new DHaromszog(be.nextLine(), i++);
+                        String v = h.getAdatok();
+                        lm.addElement(v);
+                        haromszogek.add(h);
+                    } catch (Kivetel ex) {
+                        txaHibak.append(ex.getMessage()+"\n");
+                    }
+                }
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(this, "Nem tudtam megnyitni a fájlt!",
+                        "Hiba!", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
 
     
     @SuppressWarnings("unchecked")
@@ -46,6 +76,11 @@ public class Haromszogek extends javax.swing.JFrame {
 
         btnBetolt.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnBetolt.setText("Adatok betöltése");
+        btnBetolt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBetoltActionPerformed(evt);
+            }
+        });
 
         txaHibak.setEditable(false);
         txaHibak.setColumns(20);
@@ -101,6 +136,10 @@ public class Haromszogek extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnBetoltActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBetoltActionPerformed
+        megnyit();
+    }//GEN-LAST:event_btnBetoltActionPerformed
 
     /**
      * @param args the command line arguments
