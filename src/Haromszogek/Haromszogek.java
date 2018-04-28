@@ -49,6 +49,12 @@ public class Haromszogek extends javax.swing.JFrame {
         }
     }
 
+    private void kijelol() {
+        int i = lstHaromszogek.getSelectedIndex();
+        if (i == -1) return;
+        txaAdatok.setText(String.format("Kerület: %.2f\nTerület: %.2f", 
+                haromszogek.get(i).getKerulet(), haromszogek.get(i).getTerulet()));
+    }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -93,6 +99,11 @@ public class Haromszogek extends javax.swing.JFrame {
         lstHaromszogek.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lstHaromszogek.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         lstHaromszogek.setToolTipText("");
+        lstHaromszogek.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                lstHaromszogekValueChanged(evt);
+            }
+        });
         jScrollPane2.setViewportView(lstHaromszogek);
 
         txaAdatok.setEditable(false);
@@ -140,6 +151,10 @@ public class Haromszogek extends javax.swing.JFrame {
     private void btnBetoltActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBetoltActionPerformed
         megnyit();
     }//GEN-LAST:event_btnBetoltActionPerformed
+
+    private void lstHaromszogekValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstHaromszogekValueChanged
+        kijelol();
+    }//GEN-LAST:event_lstHaromszogekValueChanged
 
     /**
      * @param args the command line arguments
